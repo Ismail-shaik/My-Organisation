@@ -1,0 +1,27 @@
+<apex:page >
+  <script>
+    function openPopup()
+     {
+        var url="/apex/inputfile";    
+        popupWindow=window.open(url, 'Popup','height=200,width=400,left=100,top=100,scrollbars=no,toolbar=no,status=no, resizable=no');
+        if (window.focus) 
+        {
+           popupWindow.focus();
+        }
+
+        return false;
+     }
+
+     function closePopUp()
+        {
+           if (null!=popupWindow)
+           {
+              popupWindow.close();
+           }  
+        }
+  </script>
+
+    <apex:outputLink id="addLanguage"  onclick="openPopup();  return false;"> new page
+   <!--   <apex:image url="{!$Resourse.}"/>  -->
+    </apex:outputLink>
+ </apex:page>

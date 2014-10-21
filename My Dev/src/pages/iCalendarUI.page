@@ -1,0 +1,49 @@
+<apex:page controller="iCalendarUIController" id="p">
+  <apex:form id="f" onSubmit="return false;">
+    <apex:sectionHeader title="Calendar" subtitle="Export My Calendar"/>
+    <apex:pageBlock title="Options" id="b">
+      <apex:pageMessages />
+      <apex:pageBlockButtons >
+        <apex:commandButton value="Export" onclick="proceed(); return false;"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockSection id="s">
+        <apex:inputField value="{!Range.StartDate__c}" id="start"/>
+        <apex:inputField value="{!Range.EndDate__c}"   id="end"/>
+      </apex:pageBlockSection>
+    </apex:pageBlock>
+  </apex:form>
+  <script type="text/javascript">
+    var jsStart;
+    var jsEnd;
+    var urlStart;
+    var urlEnd;
+    
+    function setDates(){
+    	var start = document.getElementById( "p:f:b:s:start" ).value.split('/');
+    	var end	  = document.getElementById( "p:f:b:s:end" ).value.split('/');
+    	
+   		jsStart  = new Date( start[2], ( start[0]-1 ), start[1], 0, 0, 0, 0 );
+   		if( jsStart.getFullYear() != start[2] || jsStart.getMonth() != ( start[0]-1 ) || jsStart.getDate() != start[1] ){
+   			return false;
+   		}
+   		urlStart = start[2] +"-"+ start[0] +"-"+ start[1];
+   		
+   		jsEnd  = new Date( end[2], ( end[0]-1 ), end[1], 0, 0, 0, 0 );
+   		if( jsEnd.getFullYear() != end[2] || jsEnd.getMonth() != ( end[0]-1 ) || jsEnd.getDate() != end[1] ){
+   			return false;
+   		}
+   		
+   		urlEnd = end[2] +"-"+ end[0] +"-"+ end[1];
+   		return true;
+    }
+    
+    function proceed(){
+    	if( setDates() && ( jsStart <= jsEnd )){
+			navigateToUrl('iCalendar?s='+urlStart+'&e='+urlEnd); 
+		}
+		else{
+			alert("The date is not in the correct format.");
+		}
+    }
+  </script>
+</apex:page>
